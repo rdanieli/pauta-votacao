@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+    db:
+      image: postgres
+      restart: always
+      environment:
+        POSTGRES_PASSWORD: "Postgres2019!"
+      ports:
+        - 5432:5432
+      volumes:
+        - db-data:/var/lib/postgresql/data
+
+    api:
+      build: Dockerfile.native
+      image: quarkus/pauta-votacao
+      container_name: pauta-votacao
+      restart: always
+      ports:
+        - 8080:8080
+      depends_on:
+        - db
+volumes:
+  db-data:
