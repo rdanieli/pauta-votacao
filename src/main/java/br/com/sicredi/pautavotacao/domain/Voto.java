@@ -1,5 +1,6 @@
 package br.com.sicredi.pautavotacao.domain;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,21 +12,17 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of={"id"})
-public class Voto {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@EqualsAndHashCode
+public class Voto extends PanacheEntity {
 
     @Column(name="opcao")
     private OpcaoVoto opcaoVoto;
 
     @Column(name="data")
-    private LocalDateTime data;
+    private LocalDateTime dataHora;
 
     @Column(name="id_eleitor")
-    private Long eleitorId;
+    private Long idEleitor;
 
     @ManyToOne
     @JoinColumn(name = "id_sessao_votacao")

@@ -1,9 +1,11 @@
 package br.com.sicredi.pautavotacao.domain;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -11,12 +13,9 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of={"id"})
-public class SessaoVotacao {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@EqualsAndHashCode
+@ToString(exclude = { "pauta", "votos" })
+public class SessaoVotacao extends PanacheEntity {
 
     @Column(name="data_abertura")
     private LocalDateTime dataAbertura;
@@ -24,7 +23,10 @@ public class SessaoVotacao {
     @Column(name="data_encerramento")
     private LocalDateTime dataFechamento;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_pauta")
     private Pauta pauta;
+
+    @OneToMany(mappedBy = "sessaoVotacao")
+    private List<Voto> votos;
 }
