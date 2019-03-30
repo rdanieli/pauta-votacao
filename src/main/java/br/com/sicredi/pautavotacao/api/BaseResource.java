@@ -17,7 +17,6 @@ public abstract class BaseResource {
         Set<ConstraintViolation<T>> violations = validator.validate(obj);
 
         if (!violations.isEmpty()) {
-
             throw new WebApplicationException(violations.stream()
                     .map(ConstraintViolation::getMessage)
                     .collect(Collectors.joining("\n")), Response.Status.BAD_REQUEST);

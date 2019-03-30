@@ -12,5 +12,4 @@ import java.time.LocalDateTime;
 public class SessaoRequest {
 
     private LocalDateTime dataFechamento;
-
 }

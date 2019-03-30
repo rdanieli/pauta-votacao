@@ -1,4 +1,4 @@
-package br.com.sicredi.pautavotacao.exceptions;
+package br.com.sicredi.pautavotacao.exceptions.mapper;
 
 import lombok.Builder;
 import lombok.Data;

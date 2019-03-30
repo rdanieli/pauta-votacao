@@ -1,5 +1,8 @@
-package br.com.sicredi.pautavotacao.exceptions;
+package br.com.sicredi.pautavotacao.exceptions.mapper;
 
+import br.com.sicredi.pautavotacao.exceptions.BussinesException;
+import br.com.sicredi.pautavotacao.exceptions.PautaNaoEncontradaException;
+import br.com.sicredi.pautavotacao.exceptions.SessaoNaoEncontradaException;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +25,10 @@ public final class ErrorMapper implements ExceptionMapper<Exception> {
         if (exception instanceof WebApplicationException) {
 
             code = ((WebApplicationException) exception).getResponse().getStatus();
+
+        } else if (exception instanceof PautaNaoEncontradaException || exception instanceof SessaoNaoEncontradaException) {
+
+            code = HttpStatus.SC_NOT_FOUND;
 
         } else if (exception instanceof BussinesException) {
 

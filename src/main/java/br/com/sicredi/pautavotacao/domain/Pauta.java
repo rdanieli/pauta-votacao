@@ -5,7 +5,6 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Data
@@ -14,7 +13,7 @@ import javax.persistence.Table;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class Pauta extends PanacheEntity {
 
     @Column(name = "descricao")
@@ -22,7 +21,4 @@ public class Pauta extends PanacheEntity {
 
     @Column(name = "titulo")
     private String titulo;
-
-    @OneToOne(mappedBy = "pauta")
-    private SessaoVotacao sessaoVotacao;
 }

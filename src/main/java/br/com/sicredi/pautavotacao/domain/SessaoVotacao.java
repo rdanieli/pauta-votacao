@@ -13,8 +13,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString(exclude = { "pauta", "votos" })
+@EqualsAndHashCode(callSuper = true)
+@ToString(exclude = { "pauta" })
 public class SessaoVotacao extends PanacheEntity {
 
     @Column(name="data_abertura")

@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
+@ToString(exclude = "sessaoVotacao")
 public class Voto extends PanacheEntity {
 
     @Column(name="opcao")
@@ -27,4 +28,8 @@ public class Voto extends PanacheEntity {
     @ManyToOne
     @JoinColumn(name = "id_sessao_votacao")
     private SessaoVotacao sessaoVotacao;
+
+    public boolean eleitorJaVotou(){
+        return Voto.find("sessaoVotacao = ?1 and idEleitor = ?2", sessaoVotacao, idEleitor).count() > 0;
+    }
 }

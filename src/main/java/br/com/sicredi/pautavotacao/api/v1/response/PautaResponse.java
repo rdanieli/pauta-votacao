@@ -1,9 +1,12 @@
-package br.com.sicredi.pautavotacao.api.v1.request;
+package br.com.sicredi.pautavotacao.api.v1.response;
 
+import br.com.sicredi.pautavotacao.domain.OpcaoVoto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.util.Map;
 
 @Data
 @EqualsAndHashCode
@@ -17,4 +20,5 @@ public class PautaResponse {
 
     private String descricao;
 
+    private Map<OpcaoVoto, Long> resultado;
 }
