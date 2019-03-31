@@ -86,6 +86,19 @@
       <version>3.3.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/io.quarkus/quarkus-test-h2 -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-test-h2</artifactId>
+      <version>0.11.0</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
   <build>
     <plugins>
@@ -145,17 +158,15 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-maven-plugin</artifactId>
-            <version>${quarkus.version}</version>
+            <groupId>com.oracle.substratevm</groupId>
+            <artifactId>native-image-maven-plugin</artifactId>
+            <version>1.0.0-rc14</version>
             <executions>
               <execution>
                 <goals>
                   <goal>native-image</goal>
                 </goals>
-                <configuration>
-                  <enableHttpUrlHandler>true</enableHttpUrlHandler>
-                </configuration>
+                <phase>package</phase>
               </execution>
             </executions>
           </plugin>
@@ -176,61 +187,61 @@
               </execution>
             </executions>
           </plugin>
-          <plugin>
-            <!-- Automatically start PostgreSQL for integration testing - requires Docker -->
-            <groupId>io.fabric8</groupId>
-            <artifactId>docker-maven-plugin</artifactId>
-            <version>0.28.0</version>
-            <configuration>
-              <images>
-                <image>
-                  <name>postgres:10.5</name>
-                  <alias>postgresql</alias>
-                  <run>
-                    <env>
-                      <POSTGRES_USER>postgres</POSTGRES_USER>
-                      <POSTGRES_PASSWORD>Postgres2019!</POSTGRES_PASSWORD>
-                      <POSTGRES_DB>votacao</POSTGRES_DB>
-                    </env>
-                    <ports>
-                      <port>5432:5432</port>
-                    </ports>
-                    <log>
-                      <prefix>PostgreSQL: </prefix>
-                      <date>default</date>
-                      <color>cyan</color>
-                    </log>
-                    <wait>
-                      <tcp>
-                        <mode>mapped</mode>
-                        <ports>
-                          <port>5432</port>
-                        </ports>
-                      </tcp>
-                      <time>10000</time>
-                    </wait>
-                  </run>
-                </image>
-              </images>
-            </configuration>
-            <executions>
-              <execution>
-                <id>docker-start</id>
-                <phase>test-compile</phase>
-                <goals>
-                  <goal>stop</goal>
-                  <goal>start</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>docker-stop</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>stop</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
+          <!--<plugin>-->
+            <!--&lt;!&ndash; Automatically start PostgreSQL for integration testing - requires Docker &ndash;&gt;-->
+            <!--<groupId>io.fabric8</groupId>-->
+            <!--<artifactId>docker-maven-plugin</artifactId>-->
+            <!--<version>0.28.0</version>-->
+            <!--<configuration>-->
+              <!--<images>-->
+                <!--<image>-->
+                  <!--<name>postgres:10.5</name>-->
+                  <!--<alias>postgresql</alias>-->
+                  <!--<run>-->
+                    <!--<env>-->
+                      <!--<POSTGRES_USER>postgres</POSTGRES_USER>-->
+                      <!--<POSTGRES_PASSWORD>Postgres2019!</POSTGRES_PASSWORD>-->
+                      <!--<POSTGRES_DB>votacao</POSTGRES_DB>-->
+                    <!--</env>-->
+                    <!--<ports>-->
+                      <!--<port>5432:5432</port>-->
+                    <!--</ports>-->
+                    <!--<log>-->
+                      <!--<prefix>PostgreSQL: </prefix>-->
+                      <!--<date>default</date>-->
+                      <!--<color>cyan</color>-->
+                    <!--</log>-->
+                    <!--<wait>-->
+                      <!--<tcp>-->
+                        <!--<mode>mapped</mode>-->
+                        <!--<ports>-->
+                          <!--<port>5432</port>-->
+                        <!--</ports>-->
+                      <!--</tcp>-->
+                      <!--<time>10000</time>-->
+                    <!--</wait>-->
+                  <!--</run>-->
+                <!--</image>-->
+              <!--</images>-->
+            <!--</configuration>-->
+            <!--<executions>-->
+              <!--<execution>-->
+                <!--<id>docker-start</id>-->
+                <!--<phase>test-compile</phase>-->
+                <!--<goals>-->
+                  <!--<goal>stop</goal>-->
+                  <!--<goal>start</goal>-->
+                <!--</goals>-->
+              <!--</execution>-->
+              <!--<execution>-->
+                <!--<id>docker-stop</id>-->
+                <!--<phase>post-integration-test</phase>-->
+                <!--<goals>-->
+                  <!--<goal>stop</goal>-->
+                <!--</goals>-->
+              <!--</execution>-->
+            <!--</executions>-->
+          <!--</plugin>-->
         </plugins>
       </build>
     </profile>

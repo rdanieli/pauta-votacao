@@ -39,8 +39,9 @@ public class PautaService {
     public void iniciarSessaoVotacao(String idPauta, LocalDateTime dataFechamento) {
         Pauta pauta = getPauta(idPauta).orElseThrow(() -> new PautaNaoEncontradaException(idPauta));
 
-        Optional.ofNullable(SessaoVotacao.find("pauta", pauta)).orElseThrow(() ->
-                new JaExisteSessaoException(idPauta));
+        if(getSessaoVotacao(pauta).isPresent()){
+            throw new JaExisteSessaoException(idPauta);
+        }
 
         if (dataFechamento != null && LocalDateTime.now().isAfter(dataFechamento)) {
             throw new DataFechamentoSessaoInferiorAtualException();

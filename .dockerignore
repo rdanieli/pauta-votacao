@@ -1,4 +1,7 @@
-*
-!target/*-runner
-!target/*-runner.jar
-!target/lib/*
+.dockerignore
+.git
+.gitignore
+.idea
+mvnw.cmd
+ObjectStore
+target
