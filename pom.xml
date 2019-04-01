@@ -24,7 +24,6 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -91,7 +90,6 @@
       <artifactId>quarkus-jdbc-h2</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/io.quarkus/quarkus-test-h2 -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-test-h2</artifactId>
@@ -108,13 +106,11 @@
         <version>3.7.0</version>
         <configuration>
           <source>1.8</source>
-          <target>1.8</target>
-          <!-- the parameters=true option is critical so that RESTEasy works fine -->
+          <target>1.8</target>\
           <parameters>true</parameters>
         </configuration>
       </plugin>
       <plugin>
-        <!-- you need this specific version to integrate with the other build helpers -->
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.22.0</version>
         <configuration>
@@ -158,15 +154,17 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>com.oracle.substratevm</groupId>
-            <artifactId>native-image-maven-plugin</artifactId>
-            <version>1.0.0-rc14</version>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-maven-plugin</artifactId>
+            <version>${quarkus.version}</version>
             <executions>
               <execution>
                 <goals>
                   <goal>native-image</goal>
                 </goals>
-                <phase>package</phase>
+                <configuration>
+                  <enableHttpUrlHandler>true</enableHttpUrlHandler>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -187,61 +185,6 @@
               </execution>
             </executions>
           </plugin>
-          <!--<plugin>-->
-            <!--&lt;!&ndash; Automatically start PostgreSQL for integration testing - requires Docker &ndash;&gt;-->
-            <!--<groupId>io.fabric8</groupId>-->
-            <!--<artifactId>docker-maven-plugin</artifactId>-->
-            <!--<version>0.28.0</version>-->
-            <!--<configuration>-->
-              <!--<images>-->
-                <!--<image>-->
-                  <!--<name>postgres:10.5</name>-->
-                  <!--<alias>postgresql</alias>-->
-                  <!--<run>-->
-                    <!--<env>-->
-                      <!--<POSTGRES_USER>postgres</POSTGRES_USER>-->
-                      <!--<POSTGRES_PASSWORD>Postgres2019!</POSTGRES_PASSWORD>-->
-                      <!--<POSTGRES_DB>votacao</POSTGRES_DB>-->
-                    <!--</env>-->
-                    <!--<ports>-->
-                      <!--<port>5432:5432</port>-->
-                    <!--</ports>-->
-                    <!--<log>-->
-                      <!--<prefix>PostgreSQL: </prefix>-->
-                      <!--<date>default</date>-->
-                      <!--<color>cyan</color>-->
-                    <!--</log>-->
-                    <!--<wait>-->
-                      <!--<tcp>-->
-                        <!--<mode>mapped</mode>-->
-                        <!--<ports>-->
-                          <!--<port>5432</port>-->
-                        <!--</ports>-->
-                      <!--</tcp>-->
-                      <!--<time>10000</time>-->
-                    <!--</wait>-->
-                  <!--</run>-->
-                <!--</image>-->
-              <!--</images>-->
-            <!--</configuration>-->
-            <!--<executions>-->
-              <!--<execution>-->
-                <!--<id>docker-start</id>-->
-                <!--<phase>test-compile</phase>-->
-                <!--<goals>-->
-                  <!--<goal>stop</goal>-->
-                  <!--<goal>start</goal>-->
-                <!--</goals>-->
-              <!--</execution>-->
-              <!--<execution>-->
-                <!--<id>docker-stop</id>-->
-                <!--<phase>post-integration-test</phase>-->
-                <!--<goals>-->
-                  <!--<goal>stop</goal>-->
-                <!--</goals>-->
-              <!--</execution>-->
-            <!--</executions>-->
-          <!--</plugin>-->
         </plugins>
       </build>
     </profile>

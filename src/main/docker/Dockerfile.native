@@ -17,24 +17,23 @@
 
 FROM oracle/graalvm-ce:1.0.0-rc14 AS BUILD
 WORKDIR /usr/src/app
-COPY . ./
-RUN ls -la
+
+COPY /pom.xml .
+COPY /.mvn .mvn
+COPY /mvnw .
+
 RUN chmod 777 mvnw
-RUN ./mvnw -f pom.xml clean package
-RUN native-image --no-server \
-                          --allow-incomplete-classpath \
-                          --class-path target/libs/greeting-service-all.jar \
-                          -H:ReflectionConfigurationFiles=build/reflect.json \
-                          -H:EnableURLProtocols=http \
-                          -H:Name=greeting-service \
-                          -H:Class=greeting.example.Application
+RUN ./mvnw dependency:resolve
+
+COPY . ./
+ENV GRAALVM_HOME /opt/graalvm-ce-1.0.0-rc14/
+
+RUN ./mvnw package -Pnative -DskipTests
 
 FROM registry.fedoraproject.org/fedora-minimal AS APP
 WORKDIR /work/
-COPY --from=BUILD /usr/src/app/target/*-runner.jar /work/application
+COPY --from=BUILD /usr/src/app/target/*-runner /work/application
 RUN chmod 775 /work
 EXPOSE 8080
 RUN chmod +x /work/application
 CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
-
-
