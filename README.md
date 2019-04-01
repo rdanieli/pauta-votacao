@@ -65,3 +65,6 @@ para uma aplicação com JPA, Rest e Hibernate.
 
 Ao enviar um request para o /v1/pautas/iniciar-sessao-votacao com uma data especifica, a data em questão não deve ter a letra 'Z' ao final. 
 
+Framework Quarkus, não possui uma forma muito elegante de fazer mocks de objetos. Neste caso, executei testes de integração.
+
+
